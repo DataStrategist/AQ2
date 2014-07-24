@@ -5,37 +5,31 @@
 library(shiny)
 
 data <- read.csv("mini.assets.csv")
-
+topiks <- c("Topic.GCPE", "Topic.WR", "Topic.WU", "Topic.Irr",
+            "Topic.Prosp")
 
 # Define the overall UI
-shinyUI(
-  fluidPage(
-    titlePanel("Basic DataTable"),
-    
-    # Create a new Row in the UI for selectInputs
-    fluidRow(
-      column(4, 
-             selectInput("filetype", 
-                         "File type:", 
-                         c("All", 
-                           unique(as.character(data$Prod_Type))))
-      ),
-      column(4, 
-             selectInput("product", 
-                         "Information type:", 
-                         c("All", 
-                           unique(as.character(data$Prod))))
-      )
-              
+shinyUI(pageWithSidebar(
+  headerPanel('Asset selector'),
+  sidebarPanel(    # Create a new Row in the UI for selectInputs
+  
+    selectInput("filetype", "File type:", 
+        c("All", unique(as.character(data$Prod_Type)))
     ),
-    # Create a new row for the table.
-    fluidRow(
-      tabsetPanel(
-        id = 'dataset',
-        tabPanel('Country-level', dataTableOutput('table1')),
-        tabPanel('Regional', dataTableOutput('table2')),
-        tabPanel('Global', dataTableOutput('table3'))
-      )
-    )    
-  )  
-)
+    selectInput("product", "Information type:", 
+        c("All", unique(as.character(data$Prod)))
+    ),
+    checkboxGroupInput('Topics', 'Information subject:',
+        topiks)
+            
+    ),
+  
+  mainPanel(
+    tabsetPanel(
+      id = 'dataset',
+      tabPanel('Country-level', dataTableOutput('table1')),
+      tabPanel('Regional', dataTableOutput('table2')),
+      tabPanel('Global', dataTableOutput('table3'))
+    )
+  )    
+))
