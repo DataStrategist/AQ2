@@ -32,9 +32,9 @@ shinyUI(
     fluidRow(
       tabsetPanel(
         id = 'dataset',
-        tabPanel('Country-level', dataTableOutput('table')),
-        tabPanel('Regional', dataTableOutput('mytable2')),
-        tabPanel('Global', dataTableOutput('mytable3'))
+        tabPanel('Country-level', dataTableOutput('table1')),
+        tabPanel('Regional', dataTableOutput('table2')),
+        tabPanel('Global', dataTableOutput('table3'))
       )
     )    
   )  
