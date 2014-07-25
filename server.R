@@ -23,32 +23,36 @@ shinyServer(function(input, output) {
                        "year", "year.update", "file_eng"
                     )
   
-  output$table1 <- renderDataTable({  # COUNTRIES
-    
-    # Define country assets
-    data.countries<- rbind(data["" == data[,"off_r"],], 
-                          data["--" == data[,"off_r"],])
-          
-    ### Apply filtering  ###
-    
-    data <- data.countries
+  ### Apply filtering  ###
+  reactive({
     
     if (input$country != "All"){
       data <- data[data$file_c == input$country,]
     }
     
     if (input$filetype != "All"){
-        data <- data[data$Prod_Type == input$filetype,]
+      data <- data[data$Prod_Type == input$filetype,]
+    }
+    
+    if (input$product != "All"){
+      data <- data[data$Prod == input$product,]
     }
     
     if (input$Topic != "All"){
-      if("Topic.GCPE" == input$Topic)   {data <- data[data$Topic.GCPE==T,]}
-      if("Topic.WR" == input$Topic)     {data <- data[data$Topic.WR==T,]}
-      if("Topic.WU" == input$Topic)     {data <- data[data$Topic.WU==T,]}
-      if("Topic.Irr" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
-      if("Topic.Prosp" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
+      if("General information" == input$Topic)   {data <- data[data$Topic.GCPE==T,]}
+      if("Water Resources" == input$Topic)     {data <- data[data$Topic.WR==T,]}
+      if("Water Uses" == input$Topic)     {data <- data[data$Topic.WU==T,]}
+      if("Irrigation" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
+      if("Prospects" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
     }
-    
+  })
+  
+  output$table1 <- renderDataTable({  # COUNTRIES
+    # Define country assets
+    data.countries<- rbind(data["" == data[,"off_r"],], 
+                           data["--" == data[,"off_r"],])
+    data <- data.countries 
+        
     ### do table  ###
     
     data[,Output.columns]
@@ -65,13 +69,6 @@ shinyServer(function(input, output) {
     
     data <- data.regions
     
-    if (input$filetype != "All"){
-      data <- data[data$Prod_Type == input$filetype,]
-    }
-    if (input$product != "All"){
-      data <- data[data$Prod == input$product,]
-    }
-    
     ### do table  ###
     
     data[,Output.columns]
@@ -85,13 +82,6 @@ shinyServer(function(input, output) {
     ### Apply filtering  ###
     
     data <- data.world
-    
-    if (input$filetype != "All"){
-      data <- data[data$Prod_Type == input$filetype,]
-    }
-    if (input$product != "All"){
-      data <- data[data$Prod == input$product,]
-    }
     
     ### do table  ###
     

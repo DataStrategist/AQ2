@@ -1,6 +1,3 @@
 Next steps: 
-* maybe move all filtering to reactive chunk of its own
 * apply filters to all tabs
-* add more assets to csv file
 * mebbe add images and some styling?
-* Rename all asset properties to be human friendly... in fact, probably at the master level create a macro to push csv file out with the aliases already performed... 

@@ -5,8 +5,8 @@
 library(shiny)
 
 data <- read.csv("mini.assets.csv")
-topiks <- c("All", "Topic.GCPE", "Topic.WR", "Topic.WU", "Topic.Irr",
-            "Topic.Prosp")
+topiks.text <- c("All", "General information", "Water Resources", 
+            "Water Uses", "Irrigation", "Prospects")
 
 # Define the overall UI
 shinyUI(pageWithSidebar(
@@ -17,15 +17,14 @@ shinyUI(pageWithSidebar(
                 c("All", unique(as.character(data$file_c)))
     ),
     radioButtons("Topic", label = h3("Topic:"),
-                 choices = topiks 
+                 choices = topiks.text 
     ),
     selectInput("filetype", "File type:", 
         c("All", unique(as.character(data$Prod_Type)))
     ),
     selectInput("product", "Information type:", 
         c("All", unique(as.character(data$Prod)))
-    )   
-    
+    )
   ),
   
   mainPanel(
