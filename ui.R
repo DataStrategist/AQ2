@@ -3,33 +3,18 @@
 
 .libPaths("K:/Dropbox/Dropbox/R/library")
 library(shiny)
-library(stringr)
 
 data <- read.csv("mini.assets.csv")
 topiks.text <- c("All", "General information", "Water Resources", 
             "Water Uses", "Irrigation", "Prospects")
 
-# off_countries has a series of formats, get rid of lists, and 
-## alphabetize.
-
-geog <- c(unique(as.character(data$off_c)),
-          unique(as.character(data$off_r))
-)
-geog <- geog[geog != ""]
-geog <- geog[geog != "--"]
-geog <- geog[geog != 9727]
-geog <- geog[!str_detect(geog,",")]
-geog <- sort(geog)
-geog <- c("All", geog)
-
 # Define the overall UI
 shinyUI(pageWithSidebar(
-  headerPanel('Asset selector proof of concept'),
-  sidebarPanel(
-    
-    
-    selectInput("country", h3("Country/Region:"), geog
-                
+  headerPanel('Asset selector'),
+  sidebarPanel(    # Create a new Row in the UI for selectInputs
+  
+    selectInput("country", h3("Country:"), 
+                c("All", unique(as.character(data$file_c)))
     ),
     radioButtons("Topic", label = h3("Topic:"),
                  choices = topiks.text 

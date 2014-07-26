@@ -32,30 +32,3 @@ Topic <- c("Topic.WR")
 
 
 data
-
-colnames(data)
-
-head(data$id)
-levels(data$id)
-
-a <- ""
-a <- unlist(strsplit(a,","))
-
-data <- c(
-  data["Afghanistan" %in% unlist(strsplit(levels(data$off_c),",")),],
-  data["Afghanistan" %in% unlist(strsplit(levels(data$off_r),",")),])
-
-
-library(stringr)
-a <- c("a","a,b","c")
-str_detect(a,",")
-a <- a[!str_detect(a,",")]
-
-geog <- unique(c("All", 
-                 unique(as.character(data$off_c)),
-                 unique(as.character(data$off_r))
-))
-geog <- geog[!str_detect(geog,",")]
-geog <- sort(geog)
-geog <- geog[geog != ""]
-geog <- geog[geog != "--"]

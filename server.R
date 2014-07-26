@@ -6,9 +6,6 @@ library(ggplot2)
 
 ### Load data: ###
 data <- read.csv("mini.assets.csv")
-Output.columns <- c( "name_eng",  "Abstract_eng", 
-                     "year", "year.update", "file_eng"
-)
 
 # Define a server for the Shiny app
 shinyServer(function(input, output) {
@@ -21,84 +18,14 @@ shinyServer(function(input, output) {
   # Topic.GCPE	Topic.WR	Topic.WU	Topic.Irr	Topic.Prosp	
   # Abstract_eng	Abstract_esp	Abstract_fra
   
-  output$table1 <- renderDataTable({  # COUNTRIES
-    
-    ### Apply filtering  ###
-    if (input$country != "All"){
-      data <- c(
-        data[input$country %in% unlist(strsplit(levels(data$off_c),",")),],
-        data[input$country %in% unlist(strsplit(levels(data$off_r),",")),])
-    }
-    
-    if (input$filetype != "All"){
-      data <- data[data$Prod_Type == input$filetype,]
-    }
-    
-    if (input$product != "All"){
-      data <- data[data$Prod == input$product,]
-    }
-    
-    if (input$Topic != "All"){
-      if("General information" == input$Topic)   {data <- data[data$Topic.GCPE==T,]}
-      if("Water Resources" == input$Topic)     {data <- data[data$Topic.WR==T,]}
-      if("Water Uses" == input$Topic)     {data <- data[data$Topic.WU==T,]}
-      if("Irrigation" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
-      if("Prospects" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
-    }
-    
-    # Define country assets
-    data.countries<- rbind(data["" == data$off_r], 
-                           data["--" == data$off_r])
-    data <- data.countries 
-    
-    ### do table  ###
-    
-    data[,Output.columns]
-  })
   
-  output$table2 <- renderDataTable({  # REGIONS
-    
-    # Define regional assets
-    data.regions <- data["World" != data[,"off_r"],]
-    data.regions <- data.regions["" != data.regions[,"off_r"],]
-    data.regions <- data.regions["--" != data.regions[,"off_r"],]
-    
-    data <- data.regions
-    
-    ### Apply filtering  ###
-    if (input$country != "All"){
-      data <- data[input$country %in% data$file_c,]
-    }
-    
-    if (input$filetype != "All"){
-      data <- data[data$Prod_Type == input$filetype,]
-    }
-    
-    if (input$product != "All"){
-      data <- data[data$Prod == input$product,]
-    }
-    
-    if (input$Topic != "All"){
-      if("General information" == input$Topic)   {data <- data[data$Topic.GCPE==T,]}
-      if("Water Resources" == input$Topic)     {data <- data[data$Topic.WR==T,]}
-      if("Water Uses" == input$Topic)     {data <- data[data$Topic.WU==T,]}
-      if("Irrigation" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
-      if("Prospects" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
-    }
-    
-    ### do table  ###
-    
-    data[,Output.columns]
-  })
+  Output.columns <- c( "name_eng",  "Abstract_eng", 
+                       "year", "year.update", "file_eng"
+                    )
   
-  output$table3 <- renderDataTable({  # WORLD
+  ### Apply filtering  ###
+  reactive({
     
-    # Define global assets
-    data.world <- data["World" == data[,"off_r"],]
-    
-    data <- data.world
-    
-    ### Apply filtering  ###
     if (input$country != "All"){
       data <- data[data$file_c == input$country,]
     }
@@ -118,6 +45,44 @@ shinyServer(function(input, output) {
       if("Irrigation" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
       if("Prospects" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
     }
+  })
+  
+  output$table1 <- renderDataTable({  # COUNTRIES
+    # Define country assets
+    data.countries<- rbind(data["" == data[,"off_r"],], 
+                           data["--" == data[,"off_r"],])
+    data <- data.countries 
+        
+    ### do table  ###
+    
+    data[,Output.columns]
+  })
+  
+  output$table2 <- renderDataTable({  # REGIONS
+    
+    # Define regional assets
+    data.regions <- data["World" != data[,"off_r"],]
+    data.regions <- data.regions["" != data.regions[,"off_r"],]
+    data.regions <- data.regions["--" != data.regions[,"off_r"],]
+    
+    ### Apply filtering  ###
+    
+    data <- data.regions
+    
+    ### do table  ###
+    
+    data[,Output.columns]
+  })
+  
+  output$table3 <- renderDataTable({  # WORLD
+    
+    # Define global assets
+    data.world <- data["World" == data[,"off_r"],]
+    
+    ### Apply filtering  ###
+    
+    data <- data.world
+    
     ### do table  ###
     
     data[,Output.columns]
