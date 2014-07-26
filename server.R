@@ -6,6 +6,9 @@ library(ggplot2)
 
 ### Load data: ###
 data <- read.csv("mini.assets.csv")
+Output.columns <- c( "name_eng",  "Abstract_eng", 
+                     "year", "year.update", "file_eng"
+)
 
 # Define a server for the Shiny app
 shinyServer(function(input, output) {
@@ -18,16 +21,13 @@ shinyServer(function(input, output) {
   # Topic.GCPE	Topic.WR	Topic.WU	Topic.Irr	Topic.Prosp	
   # Abstract_eng	Abstract_esp	Abstract_fra
   
-  
-  Output.columns <- c( "name_eng",  "Abstract_eng", 
-                       "year", "year.update", "file_eng"
-                    )
-  
-  ### Apply filtering  ###
-  reactive({
+  output$table1 <- renderDataTable({  # COUNTRIES
     
+    ### Apply filtering  ###
     if (input$country != "All"){
-      data <- data[data$file_c == input$country,]
+      data <- rbind(data[input$country == data[, "off_r"], ],
+                    data[input$country == data[, "off_c"], ]
+      )
     }
     
     if (input$filetype != "All"){
@@ -38,37 +38,56 @@ shinyServer(function(input, output) {
       data <- data[data$Prod == input$product,]
     }
     
-    if (input$Topic != "All"){
-      if("General information" == input$Topic)   {data <- data[data$Topic.GCPE==T,]}
-      if("Water Resources" == input$Topic)     {data <- data[data$Topic.WR==T,]}
-      if("Water Uses" == input$Topic)     {data <- data[data$Topic.WU==T,]}
-      if("Irrigation" == input$Topic)    {data <- data[data$Topic.Irr==T,]}
-      if("Prospects" == input$Topic)  {data <- data[data$Topic.Prosp==T,]}
+    if (input$topic != "All"){
+      if("General information" == input$topic) {data <- data[data$Topic.GCPE==T,]}
+      if("Water Resources"     == input$topic) {data <- data[data$Topic.WR==T,]}
+      if("Water Uses"          == input$topic) {data <- data[data$Topic.WU==T,]}
+      if("Irrigation"          == input$topic) {data <- data[data$Topic.Irr==T,]}
+      if("Prospects"           == input$topic) {data <- data[data$Topic.Prosp==T,]}
     }
-  })
-  
-  output$table1 <- renderDataTable({  # COUNTRIES
+    
     # Define country assets
-    data.countries<- rbind(data["" == data[,"off_r"],], 
-                           data["--" == data[,"off_r"],])
+    data.countries<- rbind(data["" == data[,"file_r"],], 
+                           data["--" == data[,"file_r"],])
     data <- data.countries 
-        
+    
     ### do table  ###
     
     data[,Output.columns]
   })
   
   output$table2 <- renderDataTable({  # REGIONS
+
+    ### Apply filtering  ###
+    if (input$country != "All"){
+      data <- rbind(data[input$country == data[, "off_r"], ],
+                    data[input$country == data[, "off_c"], ]
+      )
+    }
+    
+    if (input$filetype != "All"){
+      data <- data[data$Prod_Type == input$filetype,]
+    }
+    
+    if (input$product != "All"){
+      data <- data[data$Prod == input$product,]
+    }
+    
+    if (input$topic != "All"){
+      if("General information" == input$topic) {data <- data[data$Topic.GCPE==T,]}
+      if("Water Resources"     == input$topic) {data <- data[data$Topic.WR==T,]}
+      if("Water Uses"          == input$topic) {data <- data[data$Topic.WU==T,]}
+      if("Irrigation"          == input$topic) {data <- data[data$Topic.Irr==T,]}
+      if("Prospects"           == input$topic) {data <- data[data$Topic.Prosp==T,]}
+    }
     
     # Define regional assets
-    data.regions <- data["World" != data[,"off_r"],]
-    data.regions <- data.regions["" != data.regions[,"off_r"],]
-    data.regions <- data.regions["--" != data.regions[,"off_r"],]
-    
-    ### Apply filtering  ###
+    data.regions <- data["World" != data[,"file_r"],]
+    data.regions <- data.regions["" != data.regions[,"file_r"],]
+    data.regions <- data.regions["--" != data.regions[,"file_r"],]
     
     data <- data.regions
-    
+        
     ### do table  ###
     
     data[,Output.columns]
@@ -76,10 +95,33 @@ shinyServer(function(input, output) {
   
   output$table3 <- renderDataTable({  # WORLD
     
-    # Define global assets
-    data.world <- data["World" == data[,"off_r"],]
-    
     ### Apply filtering  ###
+    if (input$country != "All"){
+      data <- rbind(data[input$country == data[, "off_r"], ],
+                    data[input$country == data[, "off_c"], ]
+      )
+    }
+    
+    if (input$filetype != "All"){
+      data <- data[data$Prod_Type == input$filetype,]
+    }
+    
+    if (input$product != "All"){
+      data <- data[data$Prod == input$product,]
+    }
+    
+    if (input$topic != "All"){
+      if("General information" == input$topic) {data <- data[data$Topic.GCPE==T,]}
+      if("Water Resources"     == input$topic) {data <- data[data$Topic.WR==T,]}
+      if("Water Uses"          == input$topic) {data <- data[data$Topic.WU==T,]}
+      if("Irrigation"          == input$topic) {data <- data[data$Topic.Irr==T,]}
+      if("Prospects"           == input$topic) {data <- data[data$Topic.Prosp==T,]}
+    }
+    
+    # Define global assets
+    data.world <- rbind(data["World" == data[,"file_r"],],
+                        data["World" == data[,"file_c"],]
+    )
     
     data <- data.world
     

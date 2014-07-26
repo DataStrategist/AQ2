@@ -32,3 +32,4 @@ Topic <- c("Topic.WR")
 
 
 data
+unlist(strsplit(a,","))

@@ -8,15 +8,28 @@ data <- read.csv("mini.assets.csv")
 topiks.text <- c("All", "General information", "Water Resources", 
             "Water Uses", "Irrigation", "Prospects")
 
+# off_countries has a series of formats, get rid of lists, and 
+## alphabetize.
+geog <- c(unique(as.character(data$off_c)),
+                     unique(as.character(data$off_r))
+           )
+
+geog <- geog[geog != "--"]
+geog <- geog[!str_detect(geog,",")]
+geog <- sort(geog)
+
+geog <- c("All", geog)
+geog <- geog[geog != ""]
+geog <- unique(geog)
+
 # Define the overall UI
 shinyUI(pageWithSidebar(
   headerPanel('Asset selector'),
-  sidebarPanel(    # Create a new Row in the UI for selectInputs
+  sidebarPanel(
   
-    selectInput("country", h3("Country:"), 
-                c("All", unique(as.character(data$file_c)))
+    selectInput("country", h3("Country:"), geog
     ),
-    radioButtons("Topic", label = h3("Topic:"),
+    radioButtons("topic", label = h3("Topic:"),
                  choices = topiks.text 
     ),
     selectInput("filetype", "File type:", 
