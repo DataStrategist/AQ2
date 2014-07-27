@@ -1,13 +1,9 @@
 library(shiny)
 
-# Load the ggplot2 package which provides
-# the 'mpg' dataset.
-library(ggplot2)
-
 ### Load data: ###
 data <- read.csv("mini.assets.csv")
-Output.columns <- c( "name_eng",  "Abstract_eng", 
-                     "year", "year.update", "file_eng"
+Output.columns <- c( "file_eng", "name_eng",  "Abstract_eng", 
+                     "year", "year.update", "Prod_Type", "Prod"
 )
 
 # Define a server for the Shiny app
@@ -131,3 +127,4 @@ shinyServer(function(input, output) {
   })
   
 })
+
