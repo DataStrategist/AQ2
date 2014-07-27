@@ -2,6 +2,7 @@ Next steps:
 * mebbe add images and some styling? -  Tried:
 	sanitize.text.function = function(x) x) 
 at the end of the table declaration, but it didn't work... maybe only works for dataTable, not my type.
+Or maybe try googleVis new version when it's good on shiny?
 
 * Need to deal w/ multiple countries problem (sometimes also have to do ISO -> name for each parsed result). Tried:
 	a <- unlist(strsplit(a,","))
@@ -10,4 +11,5 @@ to parse the results... which works well... then I use
 which also works... but when I put it all together in shiny it doesn't like it because there might be some blanks... maybe I need to sanitize those files?
 
 * If I can figure out how to do a reactive block for all filtering I could also spit out the nrow of data for each tab and put that number in the name of each tab. That way users would automatically know how many assets there are inside.
-	
+
+* Cote D'Ivoire causes problems w/ the accent... sort out encoding.	

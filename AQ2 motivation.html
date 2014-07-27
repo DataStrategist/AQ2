@@ -794,7 +794,7 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Introduction</h3>
 <div class="slideContent" >
-<p>Main Problem: Assets of the AQUASTAT programme are very varied and dispersed; Users frequently find some but not all products. Since users are varied, some are looking for info by country, others by topic, and others by type.</p>
+<p>Main Problem: Assets of the <a href="http://www.fao.org/nr/water/aquastat/main/index.stm">AQUASTAT</a> programme are very varied and dispersed; Users frequently find some but not all products. Since users are varied, some are looking for info by country, others by topic, and others by type.</p>
 
 <p>Solution: Provide an interface that unites assets from:</p>
 
@@ -804,7 +804,7 @@ hljs.initHighlightingOnLoad();
 <li>Various topical analyses</li>
 </ul>
 
-<p>&hellip; and provide all assets in one easy to use platform, temporarily
+<p>&hellip; and provides all assets in one easy-to-use platform, temporarily
 called AQ2 (2nd query form for AQUASTAT).</p>
 
 </div>
@@ -813,12 +813,10 @@ called AQ2 (2nd query form for AQUASTAT).</p>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Walk before you can run</h3>
 <div class="slideContent" >
-<p>This project is possible due to a significant effort to 
-process &#39;unstructured data&#39;. Processing includes Standardization (mainly in terms of file-names and locations) and metadata assignment, which allows assets to be treated logically (and also allows them to be put in a database and queried :) ). As 
-you can imagine, this has been, and continues to be a considerable task.</p>
+<p>This project is possible due to the significant efforts made to 
+process &#39;unstructured data&#39;. Processing includes standardization (mainly in terms of file-names and locations) and metadata assignment, which allows assets to be treated logically (and also allows them to be put in a database and queried). As you can imagine, this has been and continues to be a considerable task.</p>
 
-<p>About 3 000 assets have been identified (many of which are dynamic links that in turn query our main database, but are not included here for simplicity). This project uses a 
-small selection of these (507 entries) as a proof of concept.</p>
+<p>About 3 000 assets have been identified (some of which are dynamic links that in turn query our main database). This project uses 507 entries, none of which are dyamic, just to prove the concept.</p>
 
 </div>
 
@@ -827,12 +825,9 @@ small selection of these (507 entries) as a proof of concept.</p>
 <h3>Notable challenges</h3>
 <div class="slideContent" >
 <ul>
-<li><p>The main problem is to find a way to standardize different assets that have been generated over more than a decade. The approach selected was to have an excel file that used macros and userforms to help various staff complete standardization exercises, and metadata assignment.</p></li>
-<li><p>Asset allocation to a country is sometimes tricky. Consider the difference between a global table with data on many countries, and a global report with information about the world.</p></li>
+<li><p>The main challenge is to standardize different assets that have been generated over more than a decade. The selected approach is to have an excel file that uses macros and userforms to help staff complete standardization exercises and metadata assignment.</p></li>
+<li><p>Asset allocation to a country is sometimes tricky. Consider the difference between a global table with data on many countries, and a global report with information about the world. The first is a world-level file with information on individual countries, whereas the second is a world-level file with information about the world. Thus we see the difference between the <em>file</em>-level (Which determines which tab results go in), and the <em>offered</em>-level (selected by user in the dropdown).</p></li>
 </ul>
-
-<p>In the first case, it&#39;s a world-level file, with information on individual countries, whereas the second is a world-level file 
-with information about the world. (<em>file</em> and <em>offered</em> areas)</p>
 
 </div>
 
@@ -840,13 +835,11 @@ with information about the world. (<em>file</em> and <em>offered</em> areas)</p>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Presentation thoughts</h3>
 <div class="slideContent" >
-<ul>
-<li>OK, so make a front-end to query assets, but how should results be presented? First conceptual mockup consisted of a two step process:</li>
-</ul>
+<p>How should results be presented? The first conceptual mockup consisted of a two step process:</p>
 
 <ol>
-<li>Since the list of assets was in Excel, use VBA to create an html file for each asset (name of html file is asset ID)</li>
-<li>Make a query userform that identifies queried assets, gets the corresponding html files, and INCLUDES them into a results page in the appropriate &#39;box&#39;</li>
+<li>Since the list of assets was in Excel, VBA was used to create a metadata-rich html file for each asset (name of html file is asset ID).</li>
+<li>A query userform was created to identify desired assets, get the corresponding html files, and <strong>include</strong> them into a results page in the appropriate row/column.</li>
 </ol>
 
 <table><thead>
@@ -867,13 +860,11 @@ with information about the world. (<em>file</em> and <em>offered</em> areas)</p>
 <section data-transition="linear" data-transition-speed="default">
 <h3>Final product!</h3>
 <div class="slideContent" >
-<p>The mockup proved that the idea &#39;was cute&#39;, but unwieldy, had a lot of moving parts, and would require lots of messing around in css&hellip; (read: Expensive, ugly and brittle!)</p>
+<p>The mockup proved that the idea was &#39;cute&#39; but unwieldy, had a lot of moving parts, and would require lots of messing around in css&hellip; (read: Expensive, ugly and brittle!)</p>
 
-<p>Enter Shiny :)</p>
+<p>Enter Shiny :) It was decided to prove the concept with a table. It&#39;s intuitive and simple enough for everybody to use. Without further ado:</p>
 
-<p>Decided to prove the concept with a table. It&#39;s intuitive and simple enough for everybody to use. With no further ado:</p>
-
-<p><a href="http://amit.shinyapps.io/AQ_asset_viewer/">Go to my project!</a></p>
+<p><a href="http://amit.shinyapps.io/AQ_asset_viewer/">Go see my project!</a></p>
 
 <p>Note: This is far from a finished product. Country names and IDs are not harmonized, most assets are absent, and no parsing has been done (see my <a href="https://github.com/mexindian/AQ2/blob/master/to-do.txt">to-do list</a> to see more details). It&#39;s at a good point to show the tool flexibility and to take the next and final step based on this.</p>
 
